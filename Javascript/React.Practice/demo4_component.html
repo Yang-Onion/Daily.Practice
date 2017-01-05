@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+	 	<title>React-component</title>
+	 <script type="text/javascript" src="build/react.js"></script>
+	 <script type="text/javascript" src="build/react-dom.js"></script>
+	 <script type="text/javascript" src="build/browser.min.js"></script>
+	 </head>
+	 <body>
+	 	<div id='example'></div>
+	 	<div id='example2'></div>
+	 	<script type="text/babel">
+
+		  var Hello =React.createClass({
+		  	 render:function(){
+		  	   return  <h1>hi~{this.props.name},{this.props.className},{this.props.htmlFor}</h1>
+		  	 }
+		  });	
+
+		  var UList =React.createClass({
+		  	render:function(){
+		  	  return (
+				<ol>
+		  	  	{
+		  	  		React.Children.map(this.props.children,function(child){
+		  	  		 return <li>{child}</li>
+		  	  		})
+		  	    }
+		  	  	</ol>
+
+		  	  );
+		  	}
+		  });
+		  ReactDOM.render(
+		  	<Hello name="Mr.Yang" className='class' htmlFor='for'/>,
+		  	document.getElementById('example')
+		  );
+		  ReactDOM.render(
+           <UList>
+            <span>first</span>
+            <span>second</span>
+           </UList>,
+          document.getElementById('example2')
+		  );
+	 	</script>
+	 	
+	 </body>
+</html>

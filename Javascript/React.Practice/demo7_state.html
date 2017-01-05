@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	 <head>
+	 	<title>React-state</title>
+	 <script type="text/javascript" src="build/react.js"></script>
+	 <script type="text/javascript" src="build/react-dom.js"></script>
+	 <script type="text/javascript" src="build/browser.min.js"></script>
+	 </head>
+	 <body>
+	 	<div id='example'></div>
+	 	<script type="text/babel">
+			var LinkButton =React.createClass({
+				getInitialState:function(){
+					return {liked:false};
+				},
+				handleClick:function(event){
+					this.setState({liked:!this.state.liked});
+				},
+				render:function(){
+				  var text =this.state.liked?'like':'have not liked';
+				  return(
+				  	<p onClick={this.handleClick}>
+				  		
+				  	 You {text} this.Click to toggle.	
+				  	</p>
+
+				  );
+				}
+			});
+			
+			ReactDOM.render(<LinkButton />,document.getElementById('example'));
+
+	 	</script>
+	 	
+	 </body>
+</html>

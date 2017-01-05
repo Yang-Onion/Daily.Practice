@@ -1,0 +1,26 @@
+@using Asp.NetCore.IdentityDemo.Models
+@using Asp.NetCore.IdentityDemo.Services.Impl
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+@if (SignInManager.IsSignedIn(AppUser))
+{
+    <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(AppUser)!</a>
+            </li>
+            <li>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
+            </li>
+        </ul>
+    </form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-controller="Account" asp-action="Register" asp-route-returnURL="/Sys/Index">Register</a></li>
+        <li><a asp-controller="Account" asp-action="Login" area="" asp-route-returnURL="/Sys/Index">Log in</a></li>
+    </ul>
+}

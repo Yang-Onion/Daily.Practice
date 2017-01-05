@@ -1,0 +1,48 @@
+stages:
+  - build
+  - test
+  - deploy
+  - publish
+
+before_script:
+  - echo "Restoring NuGet Packages..."
+  - dotnet restore
+
+build_job:
+ stage: build
+ script:
+  - echo "begin build Cms.Web..."
+  - dotnet build src/Cms.Web -c Release
+
+test_job:
+  stage: test
+  script:
+   - echo "begin test Cms.UnitTest..."
+   - dotnet test test/Cms.UnitTest
+
+deploy_job:
+  stage: deploy
+  script:
+   - echo "begin deploy..."
+   - iisreset /stop
+   - dotnet publish src/Cms.Web -o E:\Publish
+   - iisreset /start
+   - echo "deploy success."
+  only:
+   - develop
+
+publish_job:
+  stage: publish
+  script:
+   - echo "publish start..."
+   - mkdir D:\AwsPublish
+   - dotnet publish src/Cms.Web -o D:\AwsPublish
+   - cd D:\AwsPublish
+   - D:\Progra~1\2345Soft\HaoZip\HaoZipC.exe a -ttar publish.tar * -r
+   - D:\Progra~1\2345Soft\HaoZip\HaoZipC.exe a -tgzip publish.tar.gz publish.tar
+   - mv publish.tar.gz \\192.168.2.205\packages
+   - cd D:\
+   - rd D:\AwsPublish -Recurse
+   - echo "publish success."
+  only:
+   - master

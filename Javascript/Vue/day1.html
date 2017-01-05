@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Vue.js</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <style type="text/css">
+        .displayCss{background-color: red;}
+    </style>
+</head>
+  <body>
+  <!--<p>V-Model</p>
+  <div id="app">
+      <h4>编辑信息：<input type="text" v-model="Name"/></h4>
+      <h5>{{Name}}</h5>
+      <h5>{{Age}}</h5>
+      <h5>{{School}}</h5>
+  </div>-->
+
+  <!--<p>V-Text|V-Html</p>
+  <div id="app">
+      <h1>姓名：<label v-text='Name'></label>
+      </h1>
+      <h1>姓名：{{Name}}</h1>
+      <div style="font-size: 30px; font-weight: bold" v-html="Description">描述：</div>
+  </div>-->
+
+
+  <!--<p>V-Model</p>
+  <div id="app">
+      <h2>编辑姓名：<input type="text" v-model="Name"/>
+      </h2>
+      <h2>姓名:{{Name}}</h2>
+      <h2>编辑备注：<textarea v-model="Description"></textarea>
+      </h2>
+      <h2>备注：{{Description}}</h2>
+
+      <input type="checkbox" id="basketball" value="篮球" v-model='Hobby'/>
+      <label for="basketball">篮球</label>
+
+      <input type="checkbox" id="foottball" value="足球" v-model='Hobby' />
+      <label for="foottball">足球</label>
+
+      <input type="checkbox" id="running" value="跑步" v-model='Hobby' />
+      <label for="running">跑步</label>
+
+      <p>爱好：{{Hobby}}</p>
+
+      <br/>
+      <h2>户籍：{{Huji}}</h2>
+      <select style="width: 100px;" class="form-control" v-model="Huji">
+          <option>四川</option>
+          <option>重庆</option>
+          <option>北京</option>
+      </select>
+  </div>-->
+
+
+  <!--<p>v-if|v-else</p>
+  <div id="app">
+
+      <h1>是否已婚：<span v-if='HasMarried'>已婚</span><span v-else>未婚</span></h1>
+      <input type="text" v-model='Age'/>
+      <h1>是否成年：<span v-if='Age>=18'>已成年</span><span v-else>未成年</span></h1>
+  </div>-->
+
+
+  <!--<p>V-Show</p>
+  v-show:false;display:none;
+      v-if:false;no display
+  <div id="app">
+      请选择：
+      <select v-model="HasMarried">
+          <option value="true">已婚</option>
+          <option value="false">未婚</option>
+      </select>
+      <h1>是否已婚：<span v-show='HasMarried'>是</span></h1>
+  </div>-->
+
+  <!--<p>v-for</p>
+
+  <div id="app">
+      <select>
+          <option v-for="value in areas">{{value.id}}{{value.Province}}</option>
+      </select>
+
+      <nav>
+          <ul class="pagination pagination-lg">
+              <template v-for="page in pages">
+                  <li v-if="page==1" disabled><a href="#">上一页</a></li>
+                  <li v-if="page==1" class="active"><a href="#">{{page}}</a></li>
+                  <li v-else><a href="@">{{page}}</a></li>
+                  <li v-if="page==pages"><a href="#">下一页</a></li>
+              </template>
+          </ul>
+      </nav>
+
+
+      <ul >
+          <li v-for="(v,k) in students">
+              {{k}}:{{v}}
+          </li>
+          <li v-for="(v,k,i) in students">
+              {{i}}:{{k}}:{{v}}
+          </li>
+      </ul>
+
+  </div>-->
+
+  <!--<p>
+      <h1>v-once</h1>
+      <h5>
+          v-once表示只渲染元素和组件一次。随后的重新渲染,元素/组件及其所有的子节点将被视为静态内容并跳过。<br/>>
+          ，只要使用v-once指令的，View和Model之间除了初次渲染同步，之后便不再同步，而同一次绑定里面没使用v-once指令的还是会继续同步。
+      </h5>
+  </p>
+  <div id="app">
+      <h2>姓名：<label v-once v-text="Name"></label>
+      </h2>
+      <h2 v-once>年龄：{{Age}}</h2>
+      <h2>学校：{{School}}</h2>
+  </div>-->
+
+  <!--<p>
+      <h1>v-bind</h1>
+      <h5>
+          对于html标签的text、value等属性，Vue里面提供了v-text、v-model去绑定。但是对于除此之外的其他属性呢，这就要用到接下来要讲的v-bind指令了。
+          <br/>
+          博主的理解是v-bind的作用是绑定除了text、value之外的其他html标签属性，常见的比如class、style、自定义标签的自定义属性等。
+          <br/>
+          v-bind:property="expression"
+      </h5>
+  </p>
+
+  <div id="app">
+      <select v-model="Show">
+          <option value="block">已婚</option>
+          <option value="none">未婚</option>
+      </select>
+
+      <h1>是否已婚：
+          <span v-bind:class="{displayCss:HasMarried}">是</span>
+          <br/>
+          <span v-bind:style="{display:Show}">是</span>
+      </h1>
+  </div>-->
+
+      <h1>v-on</h1>
+  <h5>
+      对于时间的监听和绑定。
+      <br/>
+      v-on:event="expression";
+  </h5>
+  <div id="app">
+      <h2>年龄：{{Age}}</h2>
+      <button v-on:click="Age++">增加年龄</button>
+      <input v-on:mousedown='Age--' type="text"/>
+  </div>
+
+
+
+
+  <script type="text/javascript">
+      var data = {
+          Name: 'Yang',
+          Age: 18,
+          School: '四川大学',
+          Description: '<label>v-html<label>',
+          Hobby: [],
+          Huji: '',
+          HasMarried: false,
+          areas: [{ id: 1, Province: '四川' }, { id: 2, Province: '重庆' }, { id: 3, Province: '北京' }],
+          pages: 10,
+          students: { Name: 'Yang', Age: 20, School: '川大' },
+          Show:'none'
+
+
+      }
+
+      var app = new Vue({
+          el: '#app',
+          data: data
+      });
+
+
+  </script>
+  </body>
+   
+</html>
