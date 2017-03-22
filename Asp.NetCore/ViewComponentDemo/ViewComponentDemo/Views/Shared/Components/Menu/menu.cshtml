@@ -1,0 +1,9 @@
+﻿@model Dictionary<int, string>
+
+<ul style="list-style-type:none;">
+    @foreach (var item in Model) {
+        <li>
+            <a href="#" title="@item.Key">@item.Value</a>
+        </li>
+    }
+</ul>

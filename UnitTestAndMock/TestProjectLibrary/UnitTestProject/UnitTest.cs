@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using TestProjectLibrary;
@@ -88,6 +89,12 @@ namespace UnitTestProject
             ProcessEmployee process= new ProcessEmployee();
             Assert.AreEqual(process.InsertEmployee(mock.Object), true);
         }
+
+
+        [TestMethod]
+        public void TestA() {
+            C c = new C();
+        }
     }
 
     public class CheckEmployee
@@ -106,4 +113,30 @@ namespace UnitTestProject
             return true;
         }
     }
+
+    
+    public class A
+    {
+        public A() {
+            Debug.Write("A");
+        }
+    }
+
+    public class B
+    {
+        A a = new A();
+        public B() {
+
+        }
+    }
+
+    public class C : B
+    {
+        A a = new A();
+        public C() {
+
+        }
+    }
+
+    
 }
