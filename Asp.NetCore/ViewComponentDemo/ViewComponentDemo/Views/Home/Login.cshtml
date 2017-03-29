@@ -1,0 +1,9 @@
+﻿
+<form asp-controller="Home" asp-action="LoginPage">
+    用户名：<input type="text" name="userName"/>
+    <br/>
+    密码:<input type="password" name="pwd"/>
+    <input type="submit" value="登陆"/>
+ </form>
+
+@User.Claims.Where(g => g.Type.Equals("FamilyName")).FirstOrDefault().Value;
