@@ -61,6 +61,8 @@ namespace WebApiSwaggerDemo
                 options.DescribeAllEnumsAsStrings();
             });
 
+
+         
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,6 +71,7 @@ namespace WebApiSwaggerDemo
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseStaticFiles();
             app.UseMvc();
 
             app.UseSwagger(c =>

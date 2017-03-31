@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>JsonPatch</title>
+    <script src="js/jquery.min.js"></script>
+</head>
+<body>
+    <input type="button" value="JsonPatch"  onclick="jsonPatch()"/>
+
+    <script type="text/javascript">
+
+        function jsonPatch() {
+             $.ajax({
+                url: "/api/JsonPatch/11",
+                type: "Patch",
+                //data: { id: menuId },
+                dataType: "application/json",
+                success: function (o) {
+                    debugger;
+                    var temp = o;
+              }
+          });
+        }
+    </script>
+</body>
+</html>
