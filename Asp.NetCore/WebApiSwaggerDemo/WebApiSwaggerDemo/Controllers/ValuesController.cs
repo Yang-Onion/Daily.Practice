@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebApiSwaggerDemo.Model;
 
 namespace WebApiSwaggerDemo.Controllers
 {
@@ -11,6 +12,7 @@ namespace WebApiSwaggerDemo.Controllers
     public class ValuesController : Controller
     {
         private readonly List<string> list = new List<string>();
+        private List<User> listUser = new List<User>(); 
        public ValuesController() {
             list.Add("value1");
             list.Add("value2");
@@ -44,10 +46,19 @@ namespace WebApiSwaggerDemo.Controllers
         /// 增加元素
         /// </summary>
         /// <param name="value"></param>
+        //[HttpPost]
+        //public void Post([FromBody]string value)
+        //{
+        //    list.Add(value);
+        //}
+
+        /// <summary>
+        /// 增加用户
+        /// </summary>
+        /// <param name="user"></param>
         [HttpPost]
-        public void Post([FromBody]string value)
-        {
-            list.Add(value);
+        public void Post([FromBody]User user) {
+            listUser.Add(user);
         }
 
         /// <summary>

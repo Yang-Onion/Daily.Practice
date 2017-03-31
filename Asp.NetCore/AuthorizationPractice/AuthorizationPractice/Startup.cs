@@ -16,6 +16,8 @@ using AuthorizationPractice.AuthorizationPolicy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using AuthorizationPractice.AuthorizationHandler;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using System.Text;
 
 namespace AuthorizationPractice
 {
@@ -54,6 +56,7 @@ namespace AuthorizationPractice
                     option.Password.RequireLowercase = false;
                     option.Cookies.ApplicationCookie.CookieName = "cmswl.identity";
                     //option.Cookies.ApplicationCookie.CookiePath = new PathString("/Account/Login");
+                    
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -63,9 +66,19 @@ namespace AuthorizationPractice
             services.AddAuthorization(options =>
                 options.AddPolicy("Over18", policy => policy.AddRequirements(new MinimumAgeRequirement(18)))
             );
+
             services.AddMvc();
+            
+            //var temp = services.AddMvc();
+            //StringBuilder sb = new StringBuilder();
+            //foreach (var item in temp.PartManager.ApplicationParts.OfType<ControllerFeatureProvider>()) {
+
+            //    sb.Append(item.ToString());
+            //}
+            //var t = sb.ToString();
 
             // Add application services.
+
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddTransient<IAuthorizationHandler, MinAgeHandler>();
