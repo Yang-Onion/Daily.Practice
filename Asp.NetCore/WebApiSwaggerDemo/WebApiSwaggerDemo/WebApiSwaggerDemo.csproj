@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp1.1\WebApiSwaggerDemo.xml</DocumentationFile>
+    <DocumentationFile>swagger.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Content Include="wwwroot\js\swagger_lang.js" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
@@ -17,10 +17,14 @@
     <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.0.1" />
 	<PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0-rc1" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Logs\" />
   </ItemGroup>
 
 </Project>
