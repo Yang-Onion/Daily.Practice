@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApiSwaggerDemo
 {
@@ -91,6 +92,15 @@ namespace WebApiSwaggerDemo
             loggerFactory.AddFile(Configuration.GetSection("Logging"));
 
             app.UseStaticFiles();
+
+            //auth2.0 
+            //if (!env.IsDevelopment()) {
+            //    app.UseWhen(context => context.Request.Path.StartsWithSegments(new PathString("/apid")), builder=> builder.UseOAuthValidation());
+            //    app.UseOpenIdConnectServer(options =>
+            //    {
+                    
+            //    });
+            //}
 
             app.UseMvc();
 
