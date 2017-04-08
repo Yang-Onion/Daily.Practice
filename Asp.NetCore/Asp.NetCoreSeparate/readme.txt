@@ -1,0 +1,1 @@
+web.Controller下面areas要拷到Web.Host下面，拷了之后，要将web.Controller下面areas删除，否则会找到2个相同的cshtml
