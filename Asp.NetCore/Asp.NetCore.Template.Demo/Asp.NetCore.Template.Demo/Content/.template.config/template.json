@@ -1,0 +1,12 @@
+{
+  "author": "Yang-Onion <https://www.cnblogs.com/yang2012>",
+  "classifications": [ "Console" ],
+  "name": "Yang Console Boilerplate ",
+  "tags": {
+    "language": "C#"
+  },
+  "identity": "Yang.Console.Boilerplate",
+  "shortName": "consoleboilerplate",
+  "sourceName": "Yang.Console.Boilerplate",
+  "preferNameDirectory": "true"
+}

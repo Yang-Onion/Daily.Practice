@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Yang.Console.Boilerplate</id>
+        <version>0.1.0</version>
+        <description>Yang Console Boilerplate </description>
+        <authors>Yang-Onion (https://www.cnblogs.com/yang2012)</authors>
+        <language>en-US</language>
+        <projectUrl>https://www.cnblogs.com/yang2012</projectUrl>
+        <licenseUrl>https://www.cnblogs.com/yang2012</licenseUrl>
+        <copyright>Copyright 2017:https://www.cnblogs.com/yang2012</copyright>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <packageTypes>
+            <packageType name="Template" />
+        </packageTypes>
+    </metadata>
+</package>>
