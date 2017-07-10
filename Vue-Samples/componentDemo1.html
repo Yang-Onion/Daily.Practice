@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<link rel="stylesheet" href="demo2.css" />
+</head>
+<body>
+  <div id="app1">
+    <!--3:使用component,component组件需要挂载到某个Vue实例下,所以,还得-->
+    <first-component></first-component>
+  </div>
+
+  <div id="app2">
+      <second-component></second-component>
+  </div> 
+
+  <!--second-component register in app2,so app3 won't work-->
+  <div id='app3'>
+     <!--<second-component></second-component>-->
+  </div>
+  <!--组件需要挂载到某个Vue实例下面,所以,下面这种情况是不会渲染的-->
+  <!--<second-component></second-component>-->
+
+  <h2>用$mount挂载component</h2>
+  <div id="app4"></div>
+
+  <h2>父、子 component</h2>
+  <div id="app5">
+    <parent-component></parent-component>
+  </div>
+
+  
+  <h2>使用Vue.component 直接注册组件</h2>
+  <div id='app6'>
+      <synax-component-first></synax-component-first>
+  </div>
+
+  <h2>使用new Vue()注册局部组件</h2>
+  <div id="app7">
+   <local-component-1></local-component-1>
+  <br/>
+    <local-component-2></local-component-2>
+  </div>
+
+
+  <h2>使用script中的  text/x-template</h2>
+<script type="text/x-template" id='myScriptTemplate'>
+    <i>This is a script template!</i>
+</script>
+
+  <div id="app8">
+   <script-component></script-component>
+  </div>
+
+<h2>使用template标签</h2>
+    <template id="myTemplate111">
+        <i>This is a template !</i>
+    </template>
+<div id="app9">
+  <my-template-component></my-template-component>
+</div>
+
+
+
+<h2>props基础示例</h2>
+
+<div id="app10">
+    <table style="width: 50%;">
+        <tr>
+            <th colspan="3">
+                父组件数据
+            </th>
+        </tr>
+        <tr>
+            <td>my name</td>
+            <td>{{ name }}</td>
+            <td><input type="text" v-model="name" /></td>
+        </tr>
+        <tr>
+            <td>my age</td>
+            <td>{{ age }}</td>
+            <td><input type="text" v-model="age" /></td>
+        </tr>
+    </table>
+
+    <!--prop默认意向绑定-->
+    <my-template-2 v-bind:myname='name' v-bind:myage='age'></my-template-2>
+
+</div>
+
+<template id="myTemplate2">
+    <table style="width: 50%;">
+        <tr>
+            <th colspan="3">
+                子组件数据
+            </th>
+        </tr>
+        <tr>
+            <td>my name</td>
+            <td>{{ myname }}</td>
+            <td><input type="text" v-model="myname" onblur="updateName(this)" /> </td>
+        </tr>
+        <tr>
+            <td>my age</td>
+            <td>{{ myage }}</td>
+            <td><input type="text" v-model="myage" v-on:input="updateAge($event.target.value)" /></td>
+        </tr>
+    </table>
+</template>
+
+</body>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script type="text/javascript">
+//1:定义component Vue.extend();
+var firstComponent = Vue.extend({
+    template:"<span style='font-weight:bold'>This is my first vue component</span>"
+});
+//2:注册component 并设置component标签first-component,使用<first-component></first-component>
+//全局注册，任何Vue的实例都可以使用这个component
+Vue.component("first-component", firstComponent);
+
+
+var secondComponent = Vue.extend({
+   template: "<span style='color:lightblue'>This is my second vue component</span>"
+});
+
+new Vue(
+    {
+        el: "#app1"
+    })
+new Vue({
+    el:'#app2',
+    components:{
+        'second-component': secondComponent
+    }
+})
+new Vue({
+    el:'#app3'
+})
+
+
+var componentExtendDemo =Vue.extend({
+    template:'<p>我的名字叫{{firstName}}{{secondName}}</p>',
+    data:function(){
+        return{
+            firstName:'杨',
+            secondName:'洋洋'
+        }
+    }
+})
+new componentExtendDemo().$mount('#app4');
+
+
+var childComponent = Vue.extend({
+    template:'<p>This is child component</p>'
+})
+//Vue.component('child-component',childComponent);
+
+var parentComponent = Vue.extend({
+    template:'<div><p><i>This is parent component</i></p> <child-component></child-component></div>',
+    components:{
+        'child-component':childComponent
+    }
+})
+
+Vue.component('parent-component',parentComponent)
+
+new Vue({
+    el:"#app5"
+})
+
+Vue.component('synax-component-first',{
+    template:'<i>Vue.component注册全局组件</i>'
+})
+
+new Vue({
+    el:'#app6'
+})
+
+new Vue({
+    el:'#app7',
+    components:{
+        'local-component-1':{
+           template: '<i> this is the first local component</i>'
+        },
+        'local-component-2': {
+            template: '<i> this is the second local component</i>'
+        },
+    }
+})
+
+
+Vue.component("script-component",{
+    template:'#myScriptTemplate'
+})
+
+new Vue({
+    el:'#app8'
+})
+
+Vue.component('my-template-component',{
+    template:'#myTemplate111'
+})
+new Vue({
+    el:'#app9'
+})
+
+
+var vm=new Vue({
+    el:'#app10',
+    data: { name: 'Yang', age: 20 },
+    components:{
+        "my-template-2":{
+          template:"#myTemplate2",
+          props:['myname','myage'],
+          methods:{
+              updateName:function(ele){},
+              updateAge:function(value){}
+          } 
+          
+        }
+    }
+})
+
+</script>
+</html>

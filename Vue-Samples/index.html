@@ -1,0 +1,184 @@
+<html>
+    <head>
+    <title>Vue Samples</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <h4>basic bind</h4>
+        <div id='app'>
+            {{message}}
+        </div>
+        <h4>v-bind</h4>
+        <div id='app-2'>
+            <span v-bind:title='message'>
+                    v-bind
+            </span>
+        </div>
+
+        <h4>v-if</h4>
+        <div id='app-3'>
+            <span v-if='show1'>
+                    You can see this content
+            </span>
+            <span v-if='show2'>
+                    You can not see this content
+            </span>
+        </div>
+
+        <h4>v-for</h4>
+        <ul id="app-4">
+            <li v-for='todo in todolist'>
+            {{todo.name}}
+
+            </li>
+        </ul>
+
+       <h4>v-on:click</h4>
+       <div id="app-5">
+        Your Name is:{{UserName}}
+        <button v-on:click="reverseMessge">返回单词</button>
+       </div>
+
+       <h4>v-model| v-once|v-html</h4>
+
+       <div id="app-6">
+        <span v-if='UserName' v-once>
+            Your Name is:{{UserName}}
+        </span>   
+        <div v-html="rawHtml">
+          <span style='color:burlywood'>{{UserName}}</span>  
+        </div>
+        <br/>
+        <input v-model='UserName'/>
+       </div>
+
+       <h4>Vue.component</h4>
+       <div id="app-7">
+         <ul>
+             <todolist v-for='item in groceryList' v-bind:todo='item'></todolist>
+         </ul>
+       </div>
+
+       <h4>vue生命周期</h4>
+       <div id="app-8">
+         <my-temp></my-temp>
+       </div>
+
+
+
+      <script type="text/javascript">
+        var app= new Vue({
+            el:"#app",
+            data:{
+                message:'Hello World'
+            }
+        });
+        var app2= new Vue({
+            el:"#app-2",
+            data:{
+                message:'v-bind data'
+            }
+        });
+        var app3= new Vue({
+            el:"#app-3",
+            data:{
+               show1:true,
+               show2:false
+            }
+        });
+
+         var app4= new Vue({
+            el:"#app-4",
+            data:{
+               todolist:[
+                 {name:'待做事项1'},
+                 {name:'待做事项2'},
+                 {name:'待做事项3'}
+               ]
+            }
+        });
+
+        var app5= new Vue({
+            el:"#app-5",
+            data:{
+               UserName:'abcd'
+            },
+            methods:{
+                reverseMessge:function(){
+                    this.UserName=this.UserName.split('').reverse().join('');
+                }
+            }
+
+        });
+
+
+        var app6= new Vue({
+                    el:"#app-6",
+                    data:{
+                    UserName:'张三',
+                    rawHtml:"<span style='colore:red'>rawHtml</span>"
+                    }});
+
+
+       Vue.component('todolist',{
+           props:['todo'],
+           template:"<li>{{todo.text}}</li>"
+       })                    
+       var app7= new Vue({
+                    el:"#app-7",
+                    data:{
+                    groceryList: [
+                        { text: '蔬菜' },
+                        { text: '奶酪' },
+                        { text: '随便其他什么人吃的东西' }
+                        ]
+                    }
+                });
+
+
+
+        Vue.component('my-temp',{
+           template:'a custom component'
+
+        })
+        var vm = new vue({
+            data:{name:[]},
+            el:'app-8',
+
+            befroeCreate:function(){
+                name.push("befroeCreate");
+                console.log("befroeCreate");
+            },
+            created:function(){
+                name.push("created");
+                console.log("created");
+            },
+            beforeMount:function(){
+                name.push("beforeMount");
+                console.log("beforeMount");
+            },
+            mounted:function(){
+                name.push("mounted");
+                console.log("mounted");
+            },
+            befroreUpdate:function(){
+                name.push("befroreUpdate");
+                console.log("befroreUpdate");
+            },
+            updated:function(){
+                name.push("updated");
+                console.log("updated");
+            },
+            befroreDestory:function(){
+                name.push("befroreDestory");
+                console.log("befroreDestory");
+            },
+            destoryed:function(){
+                name.push("destoryed");
+                console.log("destoryed");
+            }
+        })                
+      </script>
+
+    </body>
+</html>

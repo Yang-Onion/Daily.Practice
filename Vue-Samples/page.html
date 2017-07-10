@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title> Vue Page Demo </title>
+        <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+        <!--<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+        <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+        <!--<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
+        <link rel="stylesheet" href="demo.css" />
+    </head>
+    <body>
+        <div id="app">
+            <p>{{message}}</p>
+            <input type="text" v-model='message'/>   
+            <h2>v-if</h2>
+            <h5 v-if='yes'>Yes</h5>
+            <h5 v-if='no'>No</h5>
+            <h5 v-if='age>18'> over 18 ages({{age}})</h5>
+            <h5 v-if='name.indexOf("Yang") >=0' > Name:{{name}}</h5>
+            <h2>v-show</h2>
+            <h5 v-show='yes'>Yes</h5>
+            <h5 v-show='no'>No</h5>
+            <h5 v-show='age>18'> over 18 ages({{age}})</h5>
+            <h5 v-show='name.indexOf("Yang") >=0' > Name:{{name}}</h5>
+            <h2>v-else</h2>
+            <h5 v-if='age>=18'>Age:{{age}},over 18 years old</h5>
+            <h5 v-else>Age:{{age}},under 18 years old</h5>
+
+            <h2>v-for</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Sex</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr v-for='p in people'>
+                      <td>{{p.name}}</td>
+                      <td>{{p.age}}</td>
+                      <td>{{p.sex}}</td>
+                    </tr>   
+                </tbody>
+             </table>
+ 
+             <h2>v-bind|v-on</h2>
+             <h6>
+                v-bind:class='' 可以简写为 :class=''
+                v-on:click='gotoCurrentPage(n)' 可以简写为@click='gotoCurrentPage(n)'
+             </h6>
+             <ul class="pagination">
+                <li v-for='n in pageCount'>
+                   <a v-bind:class="currentPage==n?'active':''" href="javascript:void(0)" v-on:click='gotoCurrentPage(n)' >
+                       {{n}}
+                   </a>
+                </li>
+             </ul>
+            
+            <h2>综合实例</h2>
+
+             <fieldset>
+                <legend>
+                    Create New Person
+                </legend>
+                <div class="form-group">
+                    <label>Name:</label>
+                    <input type="text" v-model="newPerson.name"/>
+                </div>
+                <div class="form-group">
+                    <label>Age:</label>
+                    <input type="text" v-model="newPerson.age"/>
+                </div>
+                <div class="form-group">
+                    <label>Sex:</label>
+                    <select v-model="newPerson.sex">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                </div>
+                <div class="form-group">
+                    <label></label>
+                    <button @click="createPerson">Create</button>
+                </div>
+
+             </fieldset>
+                <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Sex</th>
+                        <th>operate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr v-for='(p, index) in people'>
+                      <td>{{p.name}}</td>
+                      <td>{{p.age}}</td>
+                      <td>{{p.sex}}</td>
+                      <td style="text-algin:center"><button @click="deletePerson(index)">Delete</button></td>
+                    </tr>   
+                </tbody>
+             </table>
+
+
+        </div>
+    </body>
+     <script src="https://unpkg.com/vue/dist/vue.js"></script>
+     <script type="text/javascript">
+
+      var viewModel = new Vue({
+        el:'#app',
+        data:{
+            message:'Hello World',
+            yes:true,
+            no:false,
+            age:20,
+            name:'Yang',
+            people:[
+                {
+                   name:'张三',
+                   age:20,
+                   sex:'Male'      
+                },
+                {
+                   name:'李四',
+                   age:18,
+                   sex:'Female'      
+                },
+                {
+                   name:'王五',
+                   age:30,
+                   sex:'Female'      
+                }
+            ],
+            currentPage:1,
+            pageCount:10,
+            newPerson:{
+                name:'',
+                age:0,
+                sex:'Male'
+            }
+        },
+        methods:{
+            gotoCurrentPage:function(n){
+                viewModel.currentPage=n;
+            },
+            createPerson:function(){
+                viewModel.people.push(this.newPerson);
+                this.newPerson={name:'',age:0,sex:'Male'}
+            },
+            deletePerson:function(index){
+                this.people.splice(index,1);
+            }     
+        }
+      });
+     </script>
+</html>
