@@ -12,5 +12,6 @@ namespace AspNetCoreXunitAndMoqDemo
         {
             return i / j;
         }
+
     }
 }

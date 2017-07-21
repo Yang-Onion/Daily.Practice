@@ -55,5 +55,54 @@ namespace AspNetCoreXunitAndMoq.Test
             var hasCreated = service.Create(null);
             Assert.True(hasCreated);
         }
+
+
+        #region Moq Demos
+
+        [Fact]
+        public void Moq_Test()
+        {
+            Mock<ICustomer> customer = new Mock<ICustomer>();
+
+            customer.Setup(p => p.AddCall());
+            customer.Setup(g => g.GetCall()).Returns("13889046585");
+            customer.Setup(g => g.GetCall("Yang")).Returns("17313126773");
+
+            customer.Object.AddCall();
+            Assert.Equal("13889046585", customer.Object.GetCall());
+            Assert.Equal("17313126773", customer.Object.GetCall("Yang"));
+            Assert.NotEqual("13889046585", customer.Object.GetCall("Yang"));
+
+            //out ref
+            var address = "China";
+            var phone = string.Empty;
+            customer.Setup(g => g.GetAddress("userName", out address)).Returns("Chengdu");
+            customer.Setup(g => g.GetFamilyCall(ref phone)).Returns("028-65201120");
+
+            Assert.Equal("Chengdu", customer.Object.GetAddress("userName", out address));
+            Assert.Null(customer.Object.GetAddress("userName2", out address));
+            Assert.Equal("028-65201120", customer.Object.GetFamilyCall(ref phone));
+
+            //has return value
+            customer.Setup(g => g.Greet(It.IsAny<string>())).Returns((string username) => "Hello," + username);
+            Assert.Equal("Hello,Yang", customer.Object.Greet("Yang"));
+
+            //throw exception
+            customer.Setup(g => g.ShowException(string.Empty)).Throws(new ArgumentNullException("参数不能为空"));
+            Assert.Throws<ArgumentNullException>(() => customer.Object.ShowException(string.Empty));
+
+            //set value
+            var addCount = 0;
+            customer.Setup(g => g.AddCall()).Callback(() => addCount++);
+            Assert.Equal(0, addCount);
+
+            customer.Object.AddCall();
+            Assert.Equal(1, addCount);
+
+            customer.Object.AddCall();
+            Assert.Equal(2, addCount);
+        }
+
+        #endregion
     }
 }  
