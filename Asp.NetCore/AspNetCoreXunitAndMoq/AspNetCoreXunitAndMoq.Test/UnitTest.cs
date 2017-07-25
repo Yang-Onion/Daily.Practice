@@ -99,7 +99,7 @@ namespace AspNetCoreXunitAndMoq.Test
             customer.Object.AddCall();
             Assert.Equal(1, addCount);
 
-            customer.Object.AddCall();
+            customer.Object.AddCall(); 
             Assert.Equal(2, addCount);
         }
 
