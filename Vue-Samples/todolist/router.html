@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-demo2</title>
+    <script src="https://cdn.bootcss.com/vue/2.4.1/vue.js"></script>
+    <script src="https://cdn.bootcss.com/vue-router/2.7.0/vue-router.js"></script>
+    <link href="./layui.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+       
+    </div>
+
+    <script>
+        var HomeComponent = {
+            template:`<div>Home</div>`
+        };
+
+        var NewsComponent={
+            template:`
+            <div style='margin-top:5px;'>
+              <ul class="layui-nav layui-nav-tree">
+                <router-link :to="{name:'latest'}" class="layui-nav-item" tag='li'><a href="">最新新闻</a></router-link>
+                <router-link :to="{name:'hot'}" class="layui-nav-item" tag='li'><a href="">热点新闻</a></router-link>
+              </ul>
+              <router-view></router-view>
+            </div>`
+        };
+        
+        var HotNewsComponent={
+            template:`<div>Hot News</div>`
+        };
+
+        var LatestNewsComponent={
+            template:`
+            <ul>
+                <router-link tag='li' v-for='n in news' :key='n.id' :to="{name:'detail',params:{id:n.id}}">
+                    {{n.title}}
+                </router-link>
+            </ul>
+            `,
+            data:function(){
+               return {
+                   news:[
+                       {id:1,title:'新闻一'},
+                       {id:2,title:'新闻二'},
+                       {id:3,title:'新闻三'}
+                       ]
+               }
+            }
+        };
+        var NewsDetailComponent={
+            template:`<div>新闻编号{{id}}</div>`,
+            data:function(){
+                return{
+                    id:''
+                }
+            },
+            created:function(){
+                this.id=this.$route.params.id;
+            }
+        }
+
+        var AboutComponent={
+            template:`<div>About</div>`
+        };
+
+        var router = new VueRouter({
+            linkActiveClass:'layui-this',
+            routes:[
+                {name:'home',path:'/home',component:HomeComponent},
+                {name:'news',path:'/news',component:NewsComponent,
+                children:[
+                    //默认是latest
+                    {name:'',path:'/latest',component:LatestNewsComponent},
+                    {name:'hot',path:'/hot',component:HotNewsComponent},
+                    {name:'latest',path:'/latest',component:LatestNewsComponent},
+                    {name:'detail',path:':id',component:NewsDetailComponent}
+                ]
+                },
+                {name:'about',path:'/about',component:AboutComponent},
+            ]
+        });
+
+       new Vue({
+            el:"#app",
+            template:`
+                <div>
+                    <ul class="layui-nav">
+                        <router-link :to="{name:'home'}"  tag='li' class='layui-nav-item'><a href="">首页</a></router-link>
+                        <router-link :to="{name:'news'}"  tag='li' class='layui-nav-item'><a href="">新闻</a></router-link>
+                        <router-link :to="{name:'about'}" tag='li' class='layui-nav-item'><a href="">关于</a></router-link>
+                    </ul>
+                    <div>
+                      <router-view></router-view>
+                    </div>
+                </div>
+            `,
+            router:router
+       });
+    </script>
+</body>

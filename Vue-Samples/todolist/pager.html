@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>demo2</title>
+    <script src="https://cdn.bootcss.com/vue/2.4.1/vue.js"></script>
+    <script src="https://cdn.bootcss.com/vue-router/2.7.0/vue-router.js"></script>
+    <style>
+        .active{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        
+      <router-link  v-for='n in [1,2,3,4,5,6,7,8]' :to="{name:'page',params:{num:n}}" :key="n">
+       &nbsp;&nbsp;{{n}}&nbsp;&nbsp;
+       </router-link>     
+        <div>
+            <router-view></router-view>   
+        </div>  
+    </div>
+    <script>
+
+        var fakeData = [];
+        (function () {
+            for (var i = 0; i < 45; i++) {
+                fakeData.push({
+                    id: i + 1,
+                    title: `一步一步学习Vue （${i}）`,
+                    desc: `一步一步学习Vue---正文部分 （${i}）---正文结束`,
+                    readcount: parseInt(Math.random() * 1000)
+                })
+            }
+        })();
+    
+      //ArticleItemComponent中用到了ArticleItemComponent，ArticleItemComponent必须定义在它前面
+      //否则，会报组件没有注册的错误(找不到组件)
+       var ArticleItemComponent={
+            template:`
+                <ul class="article-item">
+                  <li>{{item.readcount}}</li>    
+                  <li>{{item.title}}</li>
+                  <li>{{item.desc}}</li>
+                </ul>
+            `,
+            props:['item']
+        }
+
+        var ArticleListComponent={
+            template:`
+            <div  class="article-list">
+                <article-item v-for="item in articleList" :item="item" :key="item.id"></article-item>
+            </div>
+            `,
+             components: {
+                'article-item': ArticleItemComponent
+             },
+            data:function(){
+                return{
+                    articleList:[]
+                }
+            },
+            created:function(){
+              this.activePagedData();
+            },
+            methods:{
+                activePagedData:function(){
+                    var index =this.$route.params.num;
+                    var start=(index-1)*5;
+                    var end =index *5;
+                    this.articleList=fakeData.slice(start,end);
+                }
+            },
+            /*
+            watch:{
+                '$route':function(){
+                    this.activePagedData();
+                }
+            },
+            */
+            beforeRouteUpdate:function(to,from,next){
+                this.activePagedData();
+                next();
+            }
+
+        }
+
+         
+
+        var router= new VueRouter({
+            linkActiveClass:'active',
+            routes:[
+                {name:"page",path:"/page/:num",component:ArticleListComponent}
+            ]
+        });
+
+        var app = new Vue({
+            router: router
+        }).$mount("#app");
+
+    </script>
+</body>
+</html>

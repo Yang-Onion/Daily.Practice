@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>todolist</title>
+    <script src="https://cdn.bootcss.com/vue/2.4.1/vue.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css" rel="stylesheet">
+
+</head>
+
+<body class="container">
+    <div id="app">
+    <div class="row toolbar">
+            <div class="col-md-8">
+                keyword：
+                <input type="text" v-model="keyword" />
+                <input type="button" @click="query()" value="search" class="btn btn-primary" />
+            </div>
+     </div>
+     <div  class='row'>
+        <div class="col-md-6">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Id</th>
+                    <th>title</th>
+                    <th>content</th>
+                    <th>Operate</th>
+                </tr>
+                <tr v-for="(todoItem,index) in todolist">
+                    <td>{{todoItem.id}}</td>
+                    <td>{{todoItem.title}}</td>
+                    <td>{{todoItem.content}}</td>
+                    <td>
+                        <input type="button" value="edit" v-on:click='editTodoItem(index)' class="btn btn-info">
+                        <input type="button" value="remove" @click="deleteTodoItem(index)" class="btn btn-danger" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+   
+
+        <div class="col-md-6">
+            <input type="hidden" v-bind:value="todoItem.id" />
+            <div class="form-inline">
+                <label for="title" class="control-label col-md-4">title:</label>
+                <input type="text" v-model="todoItem.title" class="form-control col-md-8">
+            </div>
+            <div class="form-inline">
+                <label for="content" class="control-label col-md-4">content</label>
+                <input type="text" v-model="todoItem.content" class="form-control col-md-8">
+            </div>
+            <div class="form-inline">
+                <input type="button" value="save" v-on:click="save()" class="btn btn-primary offset-md-10" :disabled='canSave' />
+            </div>
+        </div>
+      </div>
+    </div>
+    <script>
+         var Item = (function () {
+            var id = 1;
+            return function (title, content) {
+                this.title = title;
+                this.content = content;
+                this.id = id++;
+            }
+        })();
+        var list=[];
+        new Vue({
+            el:'#app',
+            data:{
+                todolist:[],
+                todoItem:{
+                    id:'',
+                    title:'',
+                    content:'',
+                },
+                keyword:''
+            },
+            methods:{
+                editTodoItem:function(index){
+                    var item = this.todolist[index];
+                    
+                    //这里不能用这种方式直接将item赋值给todoitem,因为当修改的时候，它们自动修改todolist里面的这个model
+                    //this.todoItem=item;
+                    this.todoItem={
+                        id:item.id,
+                        title:item.title,
+                        content:item.content
+                    }
+                },
+                deleteTodoItem:function(index){
+                    //从index,删除1个元素,再在这个位置添加新元素,前2个参数必须,第三个不必须
+                    //this.todolist.splice(index,1,new Item('test3','ccc'));
+                    this.todolist.splice(index,1);
+                },
+                save:function(){
+                    if(this.todoItem.id){
+                       var obj = this.todolist.filter(g=>g.id==this.todoItem.id)[0];
+                       obj.title=this.todoItem.title;
+                       obj.content=this.todoItem.content;
+                    }
+                    //新增
+                    else{
+                        this.todolist.push(new Item(this.todoItem.title,this.todoItem.content)); 
+                    }
+                    //这样做会使save按钮只能使用一次
+                    //Vue只是通过getter setter劫持来实现响应式，所以无法检测动态属性，所以不能直接设置为[],而使用setter为它设置空值。
+                    //this.todoItem=[];    
+                    this.todoItem={title:'',content:''};
+                },
+                query:function(){
+                    list =this.todolist;
+                    if(this.keyword){
+                      this.todolist=list.filter(g=>g.title.indexOf(this.keyword) !==-1 || g.content.indexOf(this.keyword) !==-1);
+                    }
+                    else{
+                        this.todolist=list;                        
+                    }
+
+                }
+            },
+            computed:{
+                canSave:function(){
+                    return !this.todoItem.title || !this.todoItem.content
+                }
+            }
+        })
+    </script>
+</body>
+</html>
