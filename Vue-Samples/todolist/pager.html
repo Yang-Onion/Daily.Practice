@@ -17,7 +17,7 @@
 <body>
     <div id="app">
         
-      <router-link  v-for='n in [1,2,3,4,5,6,7,8]' :to="{name:'page',params:{num:n}}" :key="n">
+      <router-link  v-for='n in [1,2,3,4,5,6,7,8,9,10]' :to="{name:'page',params:{num:n}}" :key="n">
        &nbsp;&nbsp;{{n}}&nbsp;&nbsp;
        </router-link>     
         <div>
@@ -28,7 +28,7 @@
 
         var fakeData = [];
         (function () {
-            for (var i = 0; i < 45; i++) {
+            for (var i = 1; i <= 50; i++) {
                 fakeData.push({
                     id: i + 1,
                     title: `一步一步学习Vue （${i}）`,
@@ -66,12 +66,12 @@
                 }
             },
             created:function(){
-              this.activePagedData();
+              var index =this.$route.params.num;
+              this.activePagedData(index);
             },
             methods:{
-                activePagedData:function(){
-                    var index =this.$route.params.num;
-                    var start=(index-1)*5;
+                activePagedData:function(index){
+                    var start=(index-1)*5 ;
                     var end =index *5;
                     this.articleList=fakeData.slice(start,end);
                 }
@@ -84,7 +84,9 @@
             },
             */
             beforeRouteUpdate:function(to,from,next){
-                this.activePagedData();
+                debugger;
+                var index=to.params.num;
+                this.activePagedData(index);
                 next();
             }
 
