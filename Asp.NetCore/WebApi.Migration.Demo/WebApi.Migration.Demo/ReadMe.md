@@ -13,7 +13,7 @@
 ```
 3. 重新发布、部署程序，重新访问站点，数据表结构会自动生成，原有数据仍然会存在。当添加了字段不为null时,最会为它赋一个默认值，否则可能会报错(int,bool,datetime类型的字段)
 
->如果本地能够直接连接远程服务器，那么直接执行dotnet ef  database update -c ApplicationContext -e Development 就可以；但大数情况下，开发环境和生成环境是隔离的,本地是连接不到远程服务器的，所以得按照上面步骤1~步骤3来。
+>如果本地能够直接连接远程服务器，那么直接执行dotnet ef  database update -c ApplicationContext -e Development 就可以；但大多数情况下，开发环境和生成环境是隔离的,本地是连接不到远程服务器的，所以得按照上面步骤1~步骤3来。
 
 ## EF 导航属性  one-to-one one-to-many many-to-many ForeignKey
 
