@@ -11,9 +11,7 @@ namespace SpiderAngleSharp
     {
         static void Main(string[] args)
         {
-
             var cnblogs =  Spider();
-
             Console.Read();
         }
 
