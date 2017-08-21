@@ -23,6 +23,8 @@ bld/
 [Oo]bj/
 .git/
 Logs/
+node_modules/
+*-win32-x64/
 
 # Visual Studio 2015 cache/options directory
 .vs/
