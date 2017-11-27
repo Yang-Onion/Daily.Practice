@@ -58,8 +58,6 @@ namespace RPC.Client
                                   basicProperties: props,
                                   body: requestBody);
 
-
-
             _channel.BasicConsume(consumer: _consumer,
                                    queue: _replyQueueName,
                                    autoAck: true
