@@ -33,3 +33,9 @@ ab -n 100 -c 10 http://localhost:10343/api/values
 
 
 [.Net Core 2.0+ InfluxDB+Grafana+App Metrics 实现跨平台的实时性能监控](http://www.cnblogs.com/landonzeng/p/7904402.html)
+
+[ASP.NET Core之跨平台的实时性能监控](http://www.cnblogs.com/GuZhenYin/p/7170010.html)
+
+[ASP.NET Core之跨平台的实时性能监控(2.健康检查)](http://www.cnblogs.com/GuZhenYin/p/7216724.html)
+
+[ASP.NET Core HealthCheck](https://github.com/dotnet-architecture/HealthChecks)
