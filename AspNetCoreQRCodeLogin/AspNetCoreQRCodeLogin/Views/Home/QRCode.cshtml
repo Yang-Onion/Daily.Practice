@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>basic example</title>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+
+<script type="text/javascript" src="~/js/jquery.qrcode.js"></script>
+
+<script type="text/javascript" src="~/js/qrcode.js"></script>
+
+
+
+<p>Render in table</p>
+<div id="qrcodeTable"></div>
+<p>Render in canvas</p>
+<div id="qrcodeCanvas"></div>
+
+
+
+<p>QRCode</p>
+<img src="/home/QRCodeNew" alt="QRCode_Image" width="256px" height="256px"/>
+<script type="text/javascript">
+    
+	jQuery('#qrcodeTable').qrcode({
+		render	: "table",
+		text	: '@ViewBag.QRCode'
+	});	
+	jQuery('#qrcodeCanvas').qrcode({
+		text	: "http://www.baidu.com"
+	});	
+</script>
+
+</body>
+</html>
