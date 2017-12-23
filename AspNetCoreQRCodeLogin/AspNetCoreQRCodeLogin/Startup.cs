@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AspNetCoreQRCodeLogin.Extenstions;
+using AspNetCoreQRCodeLogin.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace AspNetCoreQRCodeLogin
 {
@@ -21,6 +23,32 @@ namespace AspNetCoreQRCodeLogin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.Configure<JwtSetting>(Configuration.GetSection("JwtSetting"));
+
+            var jwtSetting = new JwtSetting();
+            Configuration.Bind("JwtSetting", jwtSetting);
+
+            services.AddAuthentication(opt=>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+               
+            })
+            .AddJwtBearer(o=> {
+                o.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = jwtSetting.Issure,
+                    ValidAudience = jwtSetting.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSetting.SecrectKey))
+                };
+                    
+            });
+            services.AddAuthorization(opt =>
+            {
+                opt.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build();
+            });
+            services.AddDistributedMemoryCache();    
             services.AddMvc();
         }
 
@@ -37,7 +65,8 @@ namespace AspNetCoreQRCodeLogin
             }
 
             app.UseStaticFiles();
-
+            app.UseAuthentication();
+            app.Map("/ws", SocketHandler.Map);
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -4,33 +4,120 @@
 <title>basic example</title>
 </head>
 <body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 
-<script type="text/javascript" src="~/js/jquery.qrcode.js"></script>
+    <script type="text/javascript" src="~/js/jquery.qrcode.js"></script>
 
-<script type="text/javascript" src="~/js/qrcode.js"></script>
-
-
-
-<p>Render in table</p>
-<div id="qrcodeTable"></div>
-<p>Render in canvas</p>
-<div id="qrcodeCanvas"></div>
+    <script type="text/javascript" src="~/js/qrcode.js"></script>
 
 
 
-<p>QRCode</p>
-<img src="/home/QRCodeNew" alt="QRCode_Image" width="256px" height="256px"/>
-<script type="text/javascript">
-    
+    <p>Render in table</p>
+    <div id="qrcodeTable"></div>
+    <p>Render in canvas</p>
+    <div id="qrcodeCanvas"></div>
+
+
+
+    <p>QRCode</p>
+    <img src="/home/QRCodeNew" alt="QRCode_Image" width="256px" height="256px" />
+
+
+    <div id="output"></div>
+    <script type="text/javascript">
+
 	jQuery('#qrcodeTable').qrcode({
 		render	: "table",
 		text	: '@ViewBag.QRCode'
-	});	
+	});
 	jQuery('#qrcodeCanvas').qrcode({
 		text	: "http://www.baidu.com"
-	});	
-</script>
+	});
+
+	@*$(function () {
+
+                (function longPolling() {
+
+                    $.ajax({
+                        url: "/api/Account/LongPolling",
+                        data: {"key": '@ViewBag.QRCode'},
+                        dataType: "text",
+                        timeout: 5000,
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                           // $("#state").append("[state: " + textStatus + ", error: " + errorThrown + " ]<br/>");
+                            if (textStatus == "timeout") { // 请求超时
+                                    longPolling(); // 递归调用
+
+                                // 其他错误，如网络错误等
+                                } else {
+                                    longPolling();
+                                }
+                            },
+                        success: function (data, textStatus) {
+                           // $("#state").append("[state: " + textStatus + ", data: { " + data + "} ]<br/>");
+
+                            if (textStatus == "success") { // 请求成功
+                                //longPolling();
+                            }
+                        }
+                    });
+                })();
+
+            });*@
+
+
+    var socket;
+    var uri = "ws://" + window.location.host + "/ws";
+    var output;
+    var text = @ViewBag.QRCode;
+
+    function write(s) {
+        var p = document.createElement("p");
+        p.innerHTML = s;
+        output.appendChild(p);
+    }
+
+    function doConnect() {
+        socket = new WebSocket(uri);
+        socket.onopen = function (e) { write("opened " + uri); doSend(); };
+        socket.onclose = function (e) { write("closed"); };
+        socket.onmessage = function (e)
+        {
+            var token = e.data;
+            redirect(token);
+
+         };
+        socket.onerror = function (e) { write("Error: " + e.data); };
+    }
+
+    function doSend() {
+        write("Sending: " + text);
+        socket.send(text);
+    }
+
+    function onInit() {
+        output = document.getElementById("output");
+        doConnect();
+    }
+
+    window.onload = onInit;
+
+
+    function redirect(token) {
+        $.ajax({
+            url: "/UserCenter/Redict",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", "bearer " + token);
+            },
+            type: 'get',
+            error: function (req, status, err) {
+            },
+            success: function (result, textStatus, request) {
+            }
+        });  
+
+    }
+    </script>
 
 </body>
 </html>
