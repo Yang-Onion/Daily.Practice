@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.WebSockets;
 namespace AspNetCoreQRCodeLogin.Controllers
 {
     [Route("api/[controller]")]
@@ -53,8 +54,6 @@ namespace AspNetCoreQRCodeLogin.Controllers
                     creds);
                 var ticket = new JwtSecurityTokenHandler().WriteToken(token);
 
-                _cache.SetString($"{model.QRCode}_token", ticket);
-
                 return Ok(new { token = ticket });
             }
 
@@ -74,15 +73,28 @@ namespace AspNetCoreQRCodeLogin.Controllers
             {
                 return BadRequest();
             }
-            _cache.SetString(qrcode, $"{QRCodeStatus.CONFIRMED}");
-
-            var socket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-
-            var socketHandler = new SocketHandler(socket)
+            try
             {
-                Key = qrcode
-            };
-            await socketHandler.SendAsync();
+                if (HttpContext.WebSockets.IsWebSocketRequest)
+                {
+                    var token = HttpContext.Request.Headers["Authorization"];
+                    var socket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+
+                    var socketHandler = new SocketHandler(socket)
+                    {
+                        Key = qrcode
+                    };
+                    await socketHandler.SendAsync();
+
+                    _cache.SetString(qrcode, $"{QRCodeStatus.CONFIRMED}");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
 
             return Ok();
         }

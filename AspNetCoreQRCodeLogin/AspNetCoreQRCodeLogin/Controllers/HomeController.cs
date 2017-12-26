@@ -46,7 +46,7 @@ namespace AspNetCoreQRCodeLogin.Controllers
         {
             var qrCode = Guid.NewGuid().ToString("N");
             ViewBag.QRCode = qrCode;
-            _cache.SetString(qrCode, $"{QRCodeStatus.NEW}_", new DistributedCacheEntryOptions().SetAbsoluteExpiration(new TimeSpan(0, 5, 0)));
+            _cache.SetString(qrCode, $"{QRCodeStatus.NEW}", new DistributedCacheEntryOptions().SetAbsoluteExpiration(new TimeSpan(0, 5, 0)));
             return View();
         }
 
