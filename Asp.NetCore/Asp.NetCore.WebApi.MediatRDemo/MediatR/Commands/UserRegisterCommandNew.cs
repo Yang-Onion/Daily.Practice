@@ -5,17 +5,11 @@ using MediatR;
 
 namespace Asp.NetCore.WebApi.MediatRDemo{
 
-    /* 没有返回值
-        public class VoidCommand:IRequest{
-            
-        }
-     */
-
-    //请求/响应模式
-    public class UserRegisterCommand:IRequest<bool>{
+    //发布模式
+    public class UserRegisterCommandNew:INotification{
         public string EmailAddress{get;set;}
         public string Password{get;set;}
-        public UserRegisterCommand(string email,string password){
+        public UserRegisterCommandNew(string email,string password){
             this.EmailAddress=email;
             this.Password=password;
         }

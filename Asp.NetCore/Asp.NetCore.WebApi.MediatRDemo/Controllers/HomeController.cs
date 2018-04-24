@@ -25,6 +25,15 @@ namespace Asp.NetCore.WebApi.MediatRDemo.Controllers
         }
 
         [HttpPost]
+        [Route("registerNew")]
+        public async Task UserRegisterNewAsync(UserRegisterDto userRegisterDto)
+        {
+           var userRegisterCommandNew= new UserRegisterCommandNew(userRegisterDto.EmailAddress,userRegisterDto.Password);
+           await _mediator.Publish(userRegisterCommandNew);
+        }
+
+
+        [HttpPost]
         [Route("modifypassword")]
         public async Task<bool> UserModifyPasswordAsync(UserModifyPasswordDto userModifyPasswordDto)
         {
